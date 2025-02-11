@@ -25,6 +25,49 @@ class Unit{
 		bool isDead();	
 };
 
+bool Unit::isDead(){
+    if(hp <= 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Unit::guard(){
+    guard_on = true;
+}
+
+int Unit::beAttacked(int oppatk){
+    int dmg;
+    if(guard_on == false){
+        dmg = oppatk - def;
+        hp -= dmg;
+    }else if(guard_on == true){
+        dmg = (oppatk - def)/3;
+        hp -= dmg;
+    }
+
+    return dmg;
+
+}
+
+int Unit::attack(Unit &a){
+	return a.beAttacked(atk);
+}
+
+int Unit::heal(){
+    int heal = rand()%21+10;
+    if(hp == hpmax){
+        return 0;
+    }if(hp + heal > hpmax){
+        heal = hpmax - hp;
+        hp = hpmax;
+    }else{
+        hp += heal;
+    }
+    return heal;
+}
+
 void Unit::create(string t){ 
 	if(t == "Hero"){
 		type = "Hero";
